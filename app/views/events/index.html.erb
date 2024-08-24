@@ -1,22 +1,17 @@
-# <% @users.each do |user| %>
-#    <p>
-#       Attended Events: 
-#    </p>
-#   <h2><%= user.email %>'s Created Events:</h2>
-#   <% user.created_events.each do |event| %>
-#     <p>
-#       Title: <%= event.title %><br>
-#       Date: <%= event.date %><br>
-#       Location: <%= event.location %><br>
-#       Description: <%= event.description %><br>
-#       Attendees:
-#       <% event.attendees.each do |attendee| %>
-#         <%= attendee.email %><br>
-#       <% end %>
-#     </p>
-#     <hr>
-#   <% end %>
-# <% end %>
+<% @users.each do |user| %>
+  
+  <h2><%= user.email %>'s Created Events:</h2>
+  <% user.events.each do |event| %>
+    <p>
+      Title: <%= event.title %><br>
+      Date: <%= event.date %><br>
+      Location: <%= event.location %><br>
+      Description: <%= event.description %><br>
+  
+    </p>
+    <hr>
+  <% end %>
+<% end %>
 
 
 <%= form_with url: create_new_event_path, model: @event, local: true do |form| %>
@@ -56,4 +51,3 @@
     </div>
   <% end %>
   
-
