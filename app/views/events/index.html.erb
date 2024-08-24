@@ -1,0 +1,59 @@
+# <% @users.each do |user| %>
+#    <p>
+#       Attended Events: 
+#    </p>
+#   <h2><%= user.email %>'s Created Events:</h2>
+#   <% user.created_events.each do |event| %>
+#     <p>
+#       Title: <%= event.title %><br>
+#       Date: <%= event.date %><br>
+#       Location: <%= event.location %><br>
+#       Description: <%= event.description %><br>
+#       Attendees:
+#       <% event.attendees.each do |attendee| %>
+#         <%= attendee.email %><br>
+#       <% end %>
+#     </p>
+#     <hr>
+#   <% end %>
+# <% end %>
+
+
+<%= form_with url: create_new_event_path, model: @event, local: true do |form| %>
+    <% if @event.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h2>
+        <ul>
+          <% @event.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  
+    <div class="title_field">
+      <%= form.label :title %>
+      <%= form.text_field :title %>
+    </div>
+  
+    <div class="date_field">
+      <%= form.label :date %>
+      <%= form.datetime_select :date %>
+    </div>
+  
+    <div class="desc_field">
+      <%= form.label :description %>
+      <%= form.text_area :description %>
+    </div>
+
+    <div class="location_field" %>
+    <%= form.label :location %>
+    <%= form.text_field :location %>
+    </div>
+  
+    <div class="action">
+      <%= form.submit "Create event" %>
+    </div>
+  <% end %>
+  
+
