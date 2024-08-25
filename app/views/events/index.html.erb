@@ -1,14 +1,37 @@
 <% @users.each do |user| %>
-  
   <h2><%= user.email %>'s Created Events:</h2>
+  <ul>
+     <% user.attended_events.each do |attended_event| %>
+      <%= attended_event.creator.email %>
+      <% if current_user.email == attended_event.creator.email %>
+      <li><%= link_to attended_event.title, edit_event_path(attended_event) %> on <%= attended_event.date %></li>
+      <%= button_to "Delete", delete_event_event_path(attended_event), method: :delete, data: { turbo: false } %>
+      <% else %>
+      <li><%=attended_event.title %> on <%= attended_event.date %></li>
+
+      <p>Sorry you cannot edit this event</p>
+      <%= button_to "Delete", delete_event_event_path(attended_event), method: :delete, data: { turbo: false } %>
+
+      <% end %>
+      <% end %>
+      
+  </ul>
   <% user.events.each do |event| %>
     <p>
       Title: <%= event.title %><br>
       Date: <%= event.date %><br>
       Location: <%= event.location %><br>
       Description: <%= event.description %><br>
-  
+      Attendees:
+      <% event.attendees.each do |attendee| %>
+        <%= attendee.email %>
+      <% end %>
     </p>
+    <% if current_user.attended_events.include?(event) %>
+      <%= button_to 'Leave Event', unattend_event_event_path(event), method: :delete %>
+    <% else %>
+      <%= button_to 'Join Event', attend_event_event_path(event), method: :post %>
+    <% end %>
     <hr>
   <% end %>
 <% end %>
@@ -51,3 +74,20 @@
     </div>
   <% end %>
   
+<h2>Your Attended Events</h2>
+
+<h3>Your past Events</h3>
+
+  <% @past_events.each do |past_event| %>
+    <br>
+    <%= past_event.title %> on <%= past_event.date %>
+    Location: <%= past_event.location %>
+  <% end %>
+
+<h3>Your upcomeing Events</h3>
+<% @upcome_events.each do |upcome_event| %>
+  <br>
+  <%= upcome_event.title %> on <%= upcome_event.date %>
+  Location: <%= upcome_event.location %>
+<% end %>
+
